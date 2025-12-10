@@ -7,7 +7,7 @@ app.use(express.json());
 //for deployment only
 const path = require("path");
 app.get("/", (req, res) =>
-  res.render(path.join(__dirname, "../client/dist/index.html"))
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"))
 );
 app.use(
   "/assets",

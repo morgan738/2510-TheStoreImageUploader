@@ -2,6 +2,20 @@ const client = require("./client");
 const { v4 } = require("uuid");
 const uuidv4 = v4;
 
+const fetchLineItem = async (userId) => {
+  const SQL = `
+    SELECT line_items.*
+    FROM line_items
+    JOIN orders
+    ON orders.id = line_items.order_id
+    JOIN users
+    ON users.id = orders.user_id
+    WHERE users.id = $1
+  `;
+  const response = await client.query(SQL, [userId]);
+  return response.rows;
+};
+
 const createLineItem = async (lineItem) => {
   const SQL = `
         INSERT INTO line_items(id, order_id, product_id)
@@ -33,4 +47,5 @@ const updateLineItem = async (lineItem) => {
 module.exports = {
   createLineItem,
   updateLineItem,
+  fetchLineItem,
 };

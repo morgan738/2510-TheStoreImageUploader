@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-const Products = ({ products }) => {
+const Products = ({ products, user, createLineItem }) => {
   return (
     <div>
       <h1>Products - {products.length}</h1>
@@ -9,6 +9,17 @@ const Products = ({ products }) => {
           return (
             <li key={product.id}>
               <Link to={`/products/${product.id}`}>{product.name}</Link>
+              {user.id ? (
+                <button
+                  onClick={() => {
+                    createLineItem(product);
+                  }}
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <p>Login to add to cart</p>
+              )}
             </li>
           );
         })}

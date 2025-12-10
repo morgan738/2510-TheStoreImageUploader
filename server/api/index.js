@@ -5,5 +5,7 @@ const app = express.Router();
 app.use("/users", require("./users"));
 app.use("/products", require("./products"));
 app.use("/auth", require("./auth"));
+app.use("/lineItems", require("./lineItems"));
+app.use("/orders", require("./orders"));
 
 module.exports = app;

@@ -9,6 +9,7 @@ const SingleProduct = ({ products }) => {
   if (!singleProduct) {
     return <h4>Loading...</h4>;
   }
+
   return (
     <div>
       <h2>{singleProduct.name}</h2>

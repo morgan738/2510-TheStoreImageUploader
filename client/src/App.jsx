@@ -95,6 +95,17 @@ function App() {
     setOrders(data);
   };
 
+  const updateProduct = async (updatedProduct) => {
+    const { data } = await axios.patch(
+      `/api/products/${updatedProduct.id}`,
+      updatedProduct,
+      getHeaders()
+    );
+    setProducts(
+      products.map((product) => (product.id === data.id ? data : product))
+    );
+  };
+
   return (
     <div>
       <Routes>
@@ -106,6 +117,7 @@ function App() {
                 products={products}
                 user={user}
                 createLineItem={createLineItem}
+                updateProduct={updateProduct}
               />
             }
           />
@@ -116,6 +128,7 @@ function App() {
                 products={products}
                 user={user}
                 createLineItem={createLineItem}
+                updateProduct={updateProduct}
               />
             }
           />

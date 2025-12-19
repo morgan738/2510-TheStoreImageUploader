@@ -3,6 +3,21 @@ const { createProduct } = require("./products");
 const { createUser } = require("./users");
 const { fetchOrders, updateOrder } = require("./orders");
 const { createLineItem, updateLineItem } = require("./lineItems");
+const path = require("path");
+const fs = require("fs");
+
+const loadImage = (filePath) => {
+  return new Promise((resolve, reject) => {
+    const fullPath = path.join(__dirname, filePath);
+    fs.readFile(fullPath, "base64", (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(`data:image/png;base64,${result}`);
+      }
+    });
+  });
+};
 
 const seed = async () => {
   const SQL = `
@@ -20,7 +35,8 @@ const seed = async () => {
     CREATE TABLE products(
       id UUID PRIMARY KEY,
       name VARCHAR(100) UNIQUE NOT NULL,
-      price INTEGER NOT NULL
+      price INTEGER NOT NULL,
+      image TEXT
     );
 
     CREATE TABLE orders(
@@ -40,8 +56,11 @@ const seed = async () => {
 
   await client.query(SQL);
 
+  const proteinImg = await loadImage("../images/protein.jpeg");
+  console.log(proteinImg);
+
   const [protein, clock, watch, steamDeck] = await Promise.all([
-    createProduct({ name: "protein powder", price: 55 }),
+    createProduct({ name: "protein powder", price: 55, image: proteinImg }),
     createProduct({ name: "clock", price: 20 }),
     createProduct({ name: "watch", price: 400 }),
     createProduct({ name: "steam deck", price: 599 }),
